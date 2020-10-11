@@ -7,4 +7,5 @@ In Terminal:
 
 > virtualenv UBS
 > cd UBS\Scripts\activate
+> pip install django
 ```
