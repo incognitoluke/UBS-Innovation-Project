@@ -9,3 +9,16 @@ In Terminal:
 > cd UBS\Scripts\activate
 > pip install django
 ```
+
+After the virtual environment has been created you do not have touch it again
+```
+To Deactivate:
+
+> deactivate
+```
+
+```
+To Reactivate:
+
+> cd UBS\Scripts\activate
+```
