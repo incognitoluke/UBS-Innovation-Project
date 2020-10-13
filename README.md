@@ -22,3 +22,5 @@ To Reactivate:
 
 > cd UBS\Scripts\activate
 ```
+
+Now that the prerequisites are done you can run the django server by doing the following
