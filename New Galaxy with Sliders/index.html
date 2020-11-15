@@ -18,19 +18,25 @@
 
 
 <body>
+<p>Adjust Node Size</p>
+<div class="slidecontainer">
+    <input type="range" min=".1" max="5" value="1" class="slider" id="slider">
+</div>    
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v3.js"></script>
 <script class="visual-box">
 
-var width = 500,
-    height = 500;
+var width = 800,
+    height = 800;
 
-var width2 = 500,
-    height2 = 500;
+var width2 = 800,
+    height2 = 800;
+
+
 
 var force = d3.layout.force()
     .charge(-5)
-    .linkDistance(function(node) { return 1})
+    .linkDistance(function(node) { return 50})
     .size([width, height]);
 
 var drag = force.drag()
@@ -58,7 +64,7 @@ d3.json("tree.jsonl", function(error, graph) {
       .data(graph.nodes)
       .enter().append("circle")
       .attr("class", "node")
-      .attr("r", function(node) { return  node.replies / 2;})  // Math.sqrt(node.replies)/2+1
+      .attr("r", function(node) { return  node.replies / 1;})  // Math.sqrt(node.replies)/2+1
       .style("fill", function(node) { return node.color; }) //node.color
       .call(force.drag);
 
@@ -76,27 +82,25 @@ d3.json("tree.jsonl", function(error, graph) {
   });
 });
 
+function updateChart(slider_data) {
+    console.log(slider_data)
+    node = svg.selectAll(".node")
+      .attr("r", function(node) { return  node.replies / slider_data;})
+}
+
 function dragstart(d) {
   d3.select(this).classed("fixed", d.fixed = true);
 }
 
+console.log("hello")
 
+d3.select("#slider").on("change", function(d){
+    selectedValue = this.value
+    updateChart(selectedValue)
+  })
 
 </script>
-<p>Anger</p>
-<div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-</div>
-<p>Likes</p>
-<div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-</div>
-<p>Replies</p>
-<div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-</div>
-<p>Retweets</p>
-<div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-</div>
+
+
+
 </html>
