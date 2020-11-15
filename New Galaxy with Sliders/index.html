@@ -22,6 +22,11 @@
 <div class="slidecontainer">
     <input type="range" min=".1" max="5" value="1" class="slider" id="slider">
 </div>    
+<p>Adjust Link Distance</p>
+<div class="slidecontainer">
+    <input type="range" min="1" max="10" value="2" class="slider2" id="slider2">
+</div>  
+
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v3.js"></script>
 <script class="visual-box">
@@ -36,7 +41,7 @@ var width2 = 800,
 
 var force = d3.layout.force()
     .charge(-5)
-    .linkDistance(function(node) { return 50})
+    .linkDistance(function(node) { return 1})
     .size([width, height]);
 
 var drag = force.drag()
@@ -82,10 +87,18 @@ d3.json("tree.jsonl", function(error, graph) {
   });
 });
 
+//Updates the chart based off of slider 1
 function updateChart(slider_data) {
     console.log(slider_data)
     node = svg.selectAll(".node")
       .attr("r", function(node) { return  node.replies / slider_data;})
+}
+
+//Updates the chart based off of slider 2
+function updateChart2(slider_data) {
+    console.log(slider_data)
+    link = svg.selectAll(".link")
+        .style("stroke-width", function(d) { return Math.sqrt(slider_data); })
 }
 
 function dragstart(d) {
@@ -94,10 +107,18 @@ function dragstart(d) {
 
 console.log("hello")
 
+//Listener for Slider 1 
 d3.select("#slider").on("change", function(d){
     selectedValue = this.value
     updateChart(selectedValue)
   })
+
+
+//Listener for Slider 2 
+d3.select("#slider2").on("change", function(d){
+    selectedValue = this.value
+    updateChart2(selectedValue)
+})
 
 </script>
 
