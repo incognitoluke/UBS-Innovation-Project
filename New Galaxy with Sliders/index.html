@@ -28,9 +28,9 @@
   <div>
     <button id='saveButton'>Export Galaxy to PNG</button>
   </div>
-  <p>Adjust Node Size</p>
+  <p>Retweet Weight</p>
   <div class="slidecontainer">
-      <input type="range" min=".1" max="5" value="1" class="slider" id="slider">
+      <input type="range" min="1" max="20" value="1" class="slider" id="slider">
   </div>    
   <p>Adjust Link Thickness</p>
   <div class="slidecontainer">
@@ -111,14 +111,20 @@
 
   //Updates the chart based off of slider 1
   function updateChart(slider_data) {
-      console.log(slider_data)
+      console.log(1/(51-slider_data))
       node = svg.selectAll(".node")
-        .attr("r", function(node) { return  node.replies / slider_data;})
+        .attr("r", function(node) { 
+          if (node.retweet_count > 10000){
+            return node.replies/2
+          }
+          else{
+            return  node.retweet_count * 1/(21-slider_data);
+        }})
   }
 
   //Updates the chart based off of slider 2
-  function updateChart2(slider_data) {
-      console.log(slider_data)
+  function updateChart2(slider_data, slider_data2) {
+      console.log(slider_data + slider_data2)
       link = svg.selectAll(".link")
           .style("stroke-width", function(d) { return Math.sqrt(slider_data); })
   }
@@ -140,9 +146,10 @@
   //Listener for Slider 2 
   d3.select("#slider2").on("change", function(d){
       selectedValue = this.value
-      updateChart2(selectedValue)
+      slider1 = document.getElementById("slider").value
+      console.log(slider1)
+      updateChart2(selectedValue,slider1)
   })
-
 
 
 
