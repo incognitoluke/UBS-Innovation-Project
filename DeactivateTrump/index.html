@@ -28,13 +28,17 @@
   <div>
     <button id='saveButton'>Export Galaxy to PNG</button>
   </div>
+  <p>Like Weight</p>
+  <div class="slidecontainer">
+      <input type="range" min="0" max="20" value="1" class="like" id="like-slider">
+  </div>  
   <p>Retweet Weight</p>
   <div class="slidecontainer">
-      <input type="range" min="1" max="20" value="1" class="slider" id="slider">
+      <input type="range" min="0" max="20" value="1" class="slider" id="slider">
   </div>    
-  <p>Adjust Link Thickness</p>
+  <p>Replies Weight</p>
   <div class="slidecontainer">
-      <input type="range" min="1" max="10" value="2" class="slider2" id="slider2">
+      <input type="range" min="0" max="20" value="1" class="slider2" id="slider2">
   </div>  
   <p>Legend:</p>
   <i class="fa fa-square" id="legend1" aria-hidden="true"></i> <span>Hello</span>
@@ -46,10 +50,10 @@
 
 <script class="visual">
 
-  var width = 800,
+  var width = 1200,
       height = 800;
 
-  var width2 = 800,
+  var width2 = 1200,
       height2 = 800;
 
 
@@ -91,7 +95,7 @@
         .data(graph.nodes)
         .enter().append("circle")
         .attr("class", "node")
-        .attr("r", function(node) { return  node.replies / 1;})  // Math.sqrt(node.replies)/2+1
+        .attr("r", function(node) { return  1;})  // Math.sqrt(node.replies)/2+1
         .style("fill", function(node) { return node.color; }) //node.color
         .call(force.drag);
 
@@ -110,15 +114,15 @@
   });
 
   //Updates the chart based off of slider 1
-  function updateChart(slider_data) {
-      console.log(1/(51-slider_data))
+  function updateChart(slider1, slider2, slider3) {
       node = svg.selectAll(".node")
         .attr("r", function(node) { 
-          if (node.retweets > 10000){
+          if (node.retweets > 20000){
             return node.replies/2
           }
           else{
-            return  node.retweets* 1/(21-slider_data);
+            //console.log((Math.sqrt(node.retweets) * (slider_data/100)) + (Math.sqrt(node.replies) * (slider2/100)))
+            return  (Math.sqrt(node.retweets) * (slider1/10)) + (Math.sqrt(node.replies) * (slider2/10)) + (Math.sqrt(node.likes) * (slider3/10));
         }})
   }
 
@@ -136,21 +140,32 @@
 
   console.log("hello")
 
-  //Listener for Slider 1 
+  //Listener for Retweet Slider
   d3.select("#slider").on("change", function(d){
       selectedValue = this.value
-      updateChart(selectedValue)
+      slider2 = document.getElementById("slider2").value
+      slider3 = document.getElementById("like-slider").value
+      updateChart(selectedValue,slider2,slider3)
     })
 
 
-  //Listener for Slider 2 
+  //Listener for Reply Slider 
   d3.select("#slider2").on("change", function(d){
       selectedValue = this.value
       slider1 = document.getElementById("slider").value
+      slider3 = document.getElementById("like-slider").value
       console.log(slider1)
-      updateChart2(selectedValue,slider1)
+      updateChart(slider1,selectedValue,slider3)
   })
 
+  //Listener for Likes Slider 
+  d3.select("#like-slider").on("change", function(d){
+      selectedValue = this.value
+      slider1 = document.getElementById("slider").value
+      slider2 = document.getElementById("slider2").value
+      console.log(slider1)
+      updateChart(slider1,slider2,selectedValue)
+  })
 
 
   // Set-up the export button
