@@ -12,8 +12,8 @@ html{
 
 .node {
   cursor: move;
-  fill: #00cc00;
-  stroke: #666699;
+  fill: #ffffff;
+  stroke: #ffffff;
   stroke-width: 0.5px;
 }
 
@@ -31,14 +31,18 @@ html{
 
 .column {
   float: left;
-  width: 10%;
-  padding: 10px;
+  width: 12%;
+  padding: 5px;
   border-style: solid;
   margin-right: 100px;
 }
 
 #legend1 {
-  color: rgb(14, 66, 179);
+  color: rgb(179, 14, 14);
+}
+
+#legend2 {
+  color: rgb(14, 47, 179);
 }
 
 #grad1 {
@@ -55,4 +59,11 @@ html{
 
 .heading{
   margin-top: 1rem;
+}
+
+#grad1 {
+  height: 10px;
+  width: 150px;
+  background-color: red; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to right, rgb(255, 200, 0) , rgb(255, 0, 0));
 }
