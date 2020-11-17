@@ -1,4 +1,4 @@
-# Bible Study-Project
+# UBS Innovation Project
 
 Prior to running the server, you need to create a virtual environment. 
 
